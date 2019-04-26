@@ -1,0 +1,107 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    background: #f3e6e6;
+    padding-top: 100px;
+}
+
+.container{
+    display: grid;
+    grid-template: 1fr / 1fr 5fr;
+}
+
+.tools-bar{
+    displaY: grid;
+    grid-template: 1fr 1fr / 1fr;
+}
+
+.draw-block{
+    height: 675px;
+    width: 675px;
+    display: grid;
+    grid-template: repeat(3, 1fr)/repeat(3, 1fr);
+    grid-gap: 5px;
+    margin: 0 auto;
+    padding: 15px;
+    border: 3px solid dodgerblue;
+}
+
+.tools, .colors-bar{
+    margin: 0 auto;
+    padding-top: 15px;
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+}
+
+.element{   
+    height: 100%;
+    width: 100%;
+    background: black;
+    border: 1px solid black;
+    border-radius: 0;
+}
+
+.tools > button{
+    margin-top: 15px;
+}
+
+.colors-bar > div{
+    margin-top: 15px;
+}
+
+.color-circle{
+    height: 50px;
+    width: 50px;
+    border: 1px solid black;
+    border-radius: 50%;
+}
+
+.color-choose-bar{
+    margin: 5px auto;
+    display: none;
+}
+
+.color-item{
+    height: 15px;
+    width: 15px;
+    margin: 0 5px;
+    border: 1px solid black;
+}
+
+/*/////////////////////////////////////////////////////  COLORS  //////////////////////////////////////////////////////////*/
+
+#current-circle{
+    background: #d3d3d3;
+}
+
+#prev-circle{
+    background: white;
+}
+
+#red-circle{
+    background: red;
+}
+
+#blue-circle{
+    background: blue;
+}
+
+#white{
+    background: #ffffff;
+}
+
+#black{
+    background: black;
+}
+
+#green{
+    background: greenyellow;
+}
+
+#magenta{
+    background: magenta;
+}
