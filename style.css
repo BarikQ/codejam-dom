@@ -1,107 +1,166 @@
-*{
+@font-face {
+    font-family: TW-R;
+    src: url(TitilliumWeb-Regular.ttf);
+}
+
+* {
     padding: 0;
     margin: 0;
 }
 
-body{
-    background: #f3e6e6;
+body {
+    background: black;
     padding-top: 100px;
+    font-family: TW-R;
+    text-shadow: 0px 0px 20px white;
 }
 
-.container{
+button {
+    font-family: TW-R;
+    font-weight: 800;
+    font-size: 15px;
+    background: none;
+    color: white;
+    border: none;
+    text-shadow: 0px 0px 20px white;
+    cursor: pointer;
+}
+
+.container {
     display: grid;
     grid-template: 1fr / 1fr 5fr;
 }
 
-.tools-bar{
+.tools-bar {
     displaY: grid;
     grid-template: 1fr 1fr / 1fr;
 }
 
-.draw-block{
-    height: 675px;
-    width: 675px;
+.draw-block {
+    height: 700px;
+    width: 700px;
     display: grid;
     grid-template: repeat(3, 1fr)/repeat(3, 1fr);
-    grid-gap: 5px;
+    grid-gap: 25px;
     margin: 0 auto;
-    padding: 15px;
+    padding: 15px 25px 25px 15px;
     border: 3px solid dodgerblue;
+    position: relative;
+    background: black;
+    box-shadow: 10px 10px 35px 10px dodgerblue;
 }
 
-.tools, .colors-bar{
-    margin: 0 auto;
+.tools,
+.colors-bar {
     padding-top: 15px;
-    width: 150px;
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
 }
 
-.element{   
+.element {
     height: 100%;
     width: 100%;
     background: black;
-    border: 1px solid black;
+    border: 5px solid lightgreen;
     border-radius: 0;
+    box-shadow: 0px 0px 18px 3px lightgreen;
+    cursor: pointer;
 }
 
-.tools > button{
+.tools>button {
     margin-top: 15px;
 }
 
-.colors-bar > div{
+.colors-bar>div {
+    color: white;
     margin-top: 15px;
 }
 
-.color-circle{
+.color-circle {
     height: 50px;
     width: 50px;
-    border: 1px solid black;
     border-radius: 50%;
+    cursor: pointer;
+    margin-left: 15px;
 }
 
-.color-choose-bar{
-    margin: 5px auto;
+.color-circle:hover {
+    box-shadow: 0px 0px 5px 5px red;
+}
+
+.color-choose-bar {
+    margin: 10px 0 0px 0;
     display: none;
 }
 
-.color-item{
+.color-item {
     height: 15px;
     width: 15px;
-    margin: 0 5px;
-    border: 1px solid black;
+    margin: 0 10px;
+    padding: 3px;
+    cursor: pointer;
+}
+
+.color-item:nth-child(1) {
+    box-shadow: 0px 0px 5px 1px white;
+}
+
+.color-item:nth-child(2) {
+    box-shadow: 0px 0px 5px 1px white;
+}
+
+.color-item:nth-child(3) {
+    box-shadow: 0px 0px 5px 1px greenyellow;
+}
+
+.color-item:nth-child(4) {
+    box-shadow: 0px 0px 5px 1px magenta;
+}
+
+.color-bar-item {
+    height: 60px;
+    displaY: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+p:hover {
+    cursor: pointer;
+    font-size: 18px;
+    text-shadow: 2px 2px 2px white;
 }
 
 /*/////////////////////////////////////////////////////  COLORS  //////////////////////////////////////////////////////////*/
 
-#current-circle{
+#current-circle {
     background: #d3d3d3;
 }
 
-#prev-circle{
+#prev-circle {
     background: white;
 }
 
-#red-circle{
+#red-circle {
     background: red;
 }
 
-#blue-circle{
+#blue-circle {
     background: blue;
 }
 
-#white{
+#white {
     background: #ffffff;
 }
 
-#black{
+#black {
     background: black;
 }
 
-#green{
+#green {
     background: greenyellow;
 }
 
-#magenta{
+#magenta {
     background: magenta;
 }

@@ -1,88 +1,108 @@
-(function() {
+(function () {
     let colChoose = document.getElementById('color-picker'),
         prevCol = document.querySelector('#prev-circle');
-        chooseBar = document.getElementById('color-bar'),
+    chooseBar = document.getElementById('color-bar'),
         whiteCol = document.getElementById('white'),
         blackCol = document.getElementById('black'),
         greenCol = document.getElementById('green'),
         redCol = document.querySelector('#red-circle'),
         blueCol = document.querySelector('#blue-circle'),
-        magentaCol = document.getElementById('magenta'),    
+        magentaCol = document.getElementById('magenta'),
         colorItem = document.querySelectorAll('.color-item'),
         currentColor = document.querySelector('#current-circle'),
-        colorElements = [];  
+        colorElements = [];
 
     let bucket = document.querySelector('#bucket'),
-        transform = document.querySelector('#transform');
+        transform = document.querySelector('#transform'),
+        move = document.querySelector('#move');
     let elementBlock = document.querySelectorAll('#element');
-    
-    console.log(elementBlock);
-    console.log(transform);
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
 
     setupColors();
     setupColorElements();
-        
+
+    //////////////////////////////////////////////////////////////////////////////////////////////  
+
     colChoose.addEventListener('click', openBar);
-    
-    bucket.addEventListener('click', changeBlockColor);  
+
+    bucket.addEventListener('click', changeElementColor);
 
     transform.addEventListener('click', transformElement);
 
+    move.addEventListener('mousedown', moveElement);
 
-    colorElements.forEach(function(elem, i){
+    //////////////////////////////////////////////////////////////////////////////////////////////
+
+    colorElements.forEach(function (elem, i) {
         elem.addEventListener('click', changeCurrentColor);
     });
 
-    function changeBlockColor(){
-        elementBlock.forEach(function(elem, i){
+    function changeElementColor() {
+        elementBlock.forEach(function (elem, i) {
+            elem.removeEventListener('mousedown', changeElementPosition);
             elem.removeEventListener('click', changeElementForm);
             elem.addEventListener('click', changeBackgroundColor);
         });
     }
-    
-    function transformElement(){
-        elementBlock.forEach(function(elem, i){
+
+    function transformElement() {
+        elementBlock.forEach(function (elem, i) {
+            elem.removeEventListener('mousedown', changeElementPosition);
             elem.removeEventListener('click', changeBackgroundColor);
             elem.addEventListener('click', changeElementForm);
         });
     }
 
+    function moveElement() {
+        elementBlock.forEach(function (elem, i) {
+            elem.removeEventListener('click', changeBackgroundColor);
+            elem.removeEventListener('click', changeElementForm);
+            elem.addEventListener('mousedown', changeElementPosition);
+        });
+    }
 
-    function changeElementForm(){
-        if(this.style.borderRadius === '50%') {
+    //////////////////////////////////////////////////////////////////////////////////////////////
+
+    function changeElementForm() {
+        if (this.style.borderRadius === '50%') {
             this.style.borderRadius = '0%';
             return 0;
         }
         this.style.borderRadius = '50%';
     }
 
+    function changeElementPosition() {
 
+    }
 
-    function changeBackgroundColor(){
+    function changeBackgroundColor() {
         this.style.background = window.getComputedStyle(currentColor).background;
     }
 
-    function changeCurrentColor(){  
-        if(currentColor.style.background === this.style.background) return 0;
-        if(this === prevCol) {
+    function changeCurrentColor() {
+        if (currentColor.style.background === this.style.background) return 0;
+        if (this === prevCol) {
             let swap;
             swap = prevCol.style.background;
             prevCol.style.background = currentColor.style.background;
             currentColor.style.background = swap;
             console.log(window.getComputedStyle(currentColor).background);
-            return 0; 
+            return 0;
         }
-        prevCol.style.background = currentColor.style.background;  
+        prevCol.style.background = currentColor.style.background;
         currentColor.style.background = this.style.background;
         console.log(window.getComputedStyle(currentColor).background);
     }
 
-    function openBar(){
-        if(chooseBar.style.display === "flex") chooseBar.style.display = "none";
+    //////////////////////////////////////////////////////////////////////////////////////////////
+
+    function openBar() {
+        if (chooseBar.style.display === "flex") chooseBar.style.display = "none";
         else chooseBar.style.display = "flex";
     }
 
-    function setupColors(){
+    function setupColors() {
         currentColor.style.background = window.getComputedStyle(currentColor).background;
         whiteCol.style.background = window.getComputedStyle(whiteCol).background;
         blueCol.style.background = window.getComputedStyle(blueCol).background;
@@ -93,8 +113,10 @@
         redCol.style.background = window.getComputedStyle(redCol).background;
     }
 
-    function setupColorElements(){
+    function setupColorElements() {
         colorElements.push(whiteCol, blueCol, redCol, blackCol, greenCol, magentaCol, prevCol);
     }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
 
 })();
