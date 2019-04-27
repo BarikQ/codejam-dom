@@ -1,7 +1,7 @@
 (function () {
     let colChoose = document.getElementById('color-picker'),
         prevCol = document.querySelector('#prev-circle');
-    chooseBar = document.getElementById('color-bar'),
+        chooseBar = document.getElementById('color-bar'),
         whiteCol = document.getElementById('white'),
         blackCol = document.getElementById('black'),
         greenCol = document.getElementById('green'),
@@ -10,6 +10,7 @@
         magentaCol = document.getElementById('magenta'),
         colorItem = document.querySelectorAll('.color-item'),
         currentColor = document.querySelector('#current-circle'),
+        drawArea = document.querySelector('#draw-block'),
         colorElements = [];
 
     let bucket = document.querySelector('#bucket'),
@@ -30,7 +31,7 @@
 
     transform.addEventListener('click', transformElement);
 
-    move.addEventListener('mousedown', moveElement);
+    move.addEventListener('click', moveElement);
 
     //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -58,7 +59,7 @@
         elementBlock.forEach(function (elem, i) {
             elem.removeEventListener('click', changeBackgroundColor);
             elem.removeEventListener('click', changeElementForm);
-            elem.addEventListener('mousedown', changeElementPosition);
+            elem.addEventListener('mousedown', changeElementPosition);       
         });
     }
 
@@ -74,6 +75,54 @@
 
     function changeElementPosition() {
 
+    this.style.position = 'absolute';
+    this.style.zIndex = '100';
+    this.style.border = '5px solid red';
+    this.style.boxShadow = '0px 0px 10px 1px red';
+    let elementAreaCoords = getCoords(this),                    // координаты элемента относительно window
+        drawCoords = getCoords(drawArea)                        // координаты draw-block
+        elementCoords = {                                       // координаты элемента относительно draw-block
+            top: elementAreaCoords.top - drawCoords.top, 
+            left: elementAreaCoords.left - drawCoords.left
+        };
+    this.style.left = elementCoords.left + 'px';
+    this.style.top = elementCoords.top + 'px';
+
+    let obj = this;
+    
+    drawArea.addEventListener('mousemove', (e) =>{
+        moveAt(e);
+    });
+
+    function moveAt(e){
+        obj.style.left = e.pageX - drawCoords.left -  elementCoords.left - obj.offsetWidth / 2 + 'px';
+        obj.style.top = e.pageY - drawCoords.top -  elementCoords.top - obj.offsetWidth / 2 + 'px';
+        console.log(obj.style.left, obj.style.top);
+    }
+
+
+    function getCoords(elem) { 
+        var box = elem.getBoundingClientRect();
+        return {
+            top: box.top + pageYOffset,
+            left: box.left + pageXOffset
+        };
+    }
+
+    this.ondragstart = function() {
+        return false;
+    };
+
+////////////////////////////// MOUSE UP 
+        this.addEventListener('mouseup', setNewPosition); 
+
+        function setNewPosition(){
+            drawArea.removeEventListener('mousemove', (e) =>{
+                moveAt(e);
+            });
+            this.style.border = '5px solid lightgreen';
+            this.style.boxShadow = '0px 0px 18px 3px lightgreen';
+        }
     }
 
     function changeBackgroundColor() {
