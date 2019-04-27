@@ -1,13 +1,13 @@
 (function () {
-    let colChoose = document.getElementById('color-picker'),
+    let colChoose = document.querySelector('#color-picker'),
         prevCol = document.querySelector('#prev-circle');
-        chooseBar = document.getElementById('color-bar'),
-        whiteCol = document.getElementById('white'),
-        blackCol = document.getElementById('black'),
-        greenCol = document.getElementById('green'),
+        chooseBar = document.querySelector('#color-bar'),
+        whiteCol = document.querySelector('#white'),
+        blackCol = document.querySelector('#black'),
+        greenCol = document.querySelector('#green'),
         redCol = document.querySelector('#red-circle'),
         blueCol = document.querySelector('#blue-circle'),
-        magentaCol = document.getElementById('magenta'),
+        magentaCol = document.querySelector('#magenta'),
         colorItem = document.querySelectorAll('.color-item'),
         currentColor = document.querySelector('#current-circle'),
         drawArea = document.querySelector('#draw-block'),
@@ -16,6 +16,7 @@
     let bucket = document.querySelector('#bucket'),
         transform = document.querySelector('#transform'),
         move = document.querySelector('#move');
+
     let elementBlock = document.querySelectorAll('#element');
 
     //////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,11 +34,11 @@
 
     move.addEventListener('click', moveElement);
 
-    //////////////////////////////////////////////////////////////////////////////////////////////
-
     colorElements.forEach(function (elem, i) {
         elem.addEventListener('click', changeCurrentColor);
     });
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
 
     function changeElementColor() {
         elementBlock.forEach(function (elem, i) {
@@ -59,47 +60,51 @@
         elementBlock.forEach(function (elem, i) {
             elem.removeEventListener('click', changeBackgroundColor);
             elem.removeEventListener('click', changeElementForm);
-            elem.addEventListener('mousedown', changeElementPosition);       
+            elem.addEventListener('mousedown', changeElementPosition);    
         });
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////
 
-    function changeElementForm() {
-        if (this.style.borderRadius === '50%') {
-            this.style.borderRadius = '0%';
-            return 0;
-        }
-        this.style.borderRadius = '50%';
-    }
-
-    function changeElementPosition() {
-
-    this.style.position = 'absolute';
-    this.style.zIndex = '100';
-    this.style.border = '5px solid red';
-    this.style.boxShadow = '0px 0px 10px 1px red';
-    let elementAreaCoords = getCoords(this),                    // координаты элемента относительно window
-        drawCoords = getCoords(drawArea)                        // координаты draw-block
-        elementCoords = {                                       // координаты элемента относительно draw-block
-            top: elementAreaCoords.top - drawCoords.top, 
-            left: elementAreaCoords.left - drawCoords.left
+    function changeElementPosition(e) {    
+        let obj = this;
+        obj.className = "element-active";
+        
+        let coords = getCoords(obj);
+        let shiftX = e.pageX - coords.left + obj.style.left;
+        let shiftY = e.pageY - coords.top + obj.style.top;
+        let areaCoords = getCoords(drawArea);
+        let elementCoords = {
+            top: coords.top - areaCoords.top,
+            left: coords.left - areaCoords.left
         };
-    this.style.left = elementCoords.left + 'px';
-    this.style.top = elementCoords.top + 'px';
-
-    let obj = this;
-    
-    drawArea.addEventListener('mousemove', (e) =>{
+        console.log(obj.style.left, obj.style.top); 
+        
         moveAt(e);
-    });
 
-    function moveAt(e){
-        obj.style.left = e.pageX - drawCoords.left -  elementCoords.left - obj.offsetWidth / 2 + 'px';
-        obj.style.top = e.pageY - drawCoords.top -  elementCoords.top - obj.offsetWidth / 2 + 'px';
-        console.log(obj.style.left, obj.style.top);
+        function moveAt(e){
+            obj.style.left = e.pageX - coords.left - shiftX  + 'px';
+            obj.style.top = e.pageY - coords.top - shiftY + 'px';
+            console.log(obj.style.left, obj.style.top);
+            console.log(shiftX, shiftY);                                // позиция курсора внутри элемента
+            console.log(coords.left, coords.top);                       // начальная позиция элемента относительно страницы
+            console.log(e.pageX, e.pageY);                              // позиция курсора относительно страницы
+        }
+
+        drawArea.onmousemove = function(e) {
+            moveAt(e);
+        };
+
+        obj.onmouseup = function() {
+            obj.className = 'element';
+            obj.style.position = 'absolute';
+            // obj.top = coords.top + 'px';
+            // obj.left = coords.left + 'px';
+            drawArea.onmousemove = null;
+            obj.onmouseup = null;
+        };
+        
     }
-
 
     function getCoords(elem) { 
         var box = elem.getBoundingClientRect();
@@ -109,20 +114,12 @@
         };
     }
 
-    this.ondragstart = function() {
-        return false;
-    };
-
-////////////////////////////// MOUSE UP 
-        this.addEventListener('mouseup', setNewPosition); 
-
-        function setNewPosition(){
-            drawArea.removeEventListener('mousemove', (e) =>{
-                moveAt(e);
-            });
-            this.style.border = '5px solid lightgreen';
-            this.style.boxShadow = '0px 0px 18px 3px lightgreen';
+    function changeElementForm() {
+        if (this.style.borderRadius === '50%') {
+            this.style.borderRadius = '0%';
+            return 0;
         }
+        this.style.borderRadius = '50%';
     }
 
     function changeBackgroundColor() {
@@ -136,12 +133,10 @@
             swap = prevCol.style.background;
             prevCol.style.background = currentColor.style.background;
             currentColor.style.background = swap;
-            console.log(window.getComputedStyle(currentColor).background);
             return 0;
         }
         prevCol.style.background = currentColor.style.background;
         currentColor.style.background = this.style.background;
-        console.log(window.getComputedStyle(currentColor).background);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////

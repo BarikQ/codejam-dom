@@ -68,6 +68,19 @@ button {
     border-radius: 0;
     box-shadow: 0px 0px 18px 3px lightgreen;
     cursor: pointer;
+    transition: 0.3s all ease;
+}
+
+.element-active{
+    height: 210px;
+    width: 210px;
+    background: black;
+    position: absolute;
+    z-index: 100;
+    border: 5px solid red;
+    box-shadow: 0px 0px 10px 1px red;
+    border-radius: 0;
+    cursor: pointer;
 }
 
 .element:hover{
