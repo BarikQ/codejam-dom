@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>CodeJam-Dom</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="src/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="tools-bar">
+            <div class="tools">
+                <button class="bucket" id="bucket">
+                    <p>Paint bucket</p>
+                </button>
+                <button class="color-picker" id="color-picker">
+                    <p>Choose Color</p>
+                </button>
+                <div class="color-choose-bar" id="color-bar">
+                    <div class="color-item" id="white"></div>
+                    <div class="color-item" id="black"></div>
+                    <div class="color-item" id="green"></div>
+                    <div class="color-item" id="magenta"></div>
+                </div>
+                <button class="move" id="move">
+                    <p>Move</p>
+                </button>
+                <button class="transform" id="transform">
+                    <p>Transform</p>
+                </button>
+            </div>
+            <div class="colors-bar">
+                <div class="current-color color-bar-item" id="current-color color-bar-item">
+                    <p>Current color</p>
+                    <div class="color-circle" id="current-circle"></div>
+                </div>
+                <div class="prev-color color-bar-item" id="prev-color color-bar-item">
+                    <p>Prev color</p>
+                    <div class="color-circle" id="prev-circle"></div>
+                </div>
+                <div class="red-color color-bar-item" id="red-color color-bar-item">
+                    <p>Red</p>
+                    <div class="color-circle" id="red-circle"></div>
+                </div>
+                <div class="blue-color color-bar-item" id="blue-color color-bar-item">
+                    <p>Blue</p>
+                    <div class="color-circle" id="blue-circle"></div>
+                </div>
+            </div>
+        </div>
+        <div class="canvas-block">
+            <div class="draw-block" id="draw-block">
+                <div class="element" id="element" style="grid-column: 1; grid-row: 1;"></div>
+                <div class="element" id="element" style="grid-column: 2; grid-row: 1;"></div>
+                <div class="element" id="element" style="grid-column: 3; grid-row: 1;"></div>
+                <div class="element" id="element" style="grid-column: 1; grid-row: 2;"></div>
+                <div class="element" id="element" style="grid-column: 2; grid-row: 2;"></div>
+                <div class="element" id="element" style="grid-column: 3; grid-row: 2;"></div>
+                <div class="element" id="element" style="grid-column: 1; grid-row: 3;"></div>
+                <div class="element" id="element" style="grid-column: 2; grid-row: 3;"></div>
+                <div class="element" id="element" style="grid-column: 3; grid-row: 3;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="shortcuts">
+        <p>P - Paint Bucket Tool</p>
+        <p>C - Choose Color</p>
+        <p>M - Move Tool</p>
+        <p>T - Transform Tool</p>
+    </div>
+    <script src="src/script.js"></script>
+</body>
+
+</html>
