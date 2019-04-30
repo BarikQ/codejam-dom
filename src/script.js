@@ -1,3 +1,5 @@
+/* eslint-disable prefer-const */
+/* eslint-disable no-console */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-shadow */
 
@@ -32,6 +34,7 @@
         let coords = getCoords(obj);
         const shiftX = e.pageX - coords.left;
         const shiftY = e.pageY - coords.top;
+        let par = this.parentNode;
 
         obj.className = 'element-active';
         obj.style.position = 'absolute';
@@ -49,6 +52,34 @@
         moveAt(e);
 
         obj.onmouseup = () => {
+            const blockContainer = document.querySelectorAll(".parentElement");
+            blockContainer.forEach(item => {
+              let x = this.offsetLeft;
+              let y = this.offsetTop;
+              let x1 = item.offsetLeft;
+              let y1 = item.offsetTop;
+              if (x > x1 - 142 && x < x1 + 142 &&
+              y > y1 - 142 && y < y1 + 142) {
+                let parent1 = item;
+                if (!parent1.firstChild) {
+                  let child0 = this;
+                  this.style.left = 0;
+                  this.style.top = 0;
+                  parent1.insertBefore(child0, null);
+                }
+                else {
+                  let child1 = parent1.querySelector(".element");
+                  let parent0 = par;
+                  let child0 = this;
+                  this.style.left = 0;
+                  this.style.top = 0;
+                  parent1.appendChild(child0);
+                  parent0.appendChild(child1);
+                }
+              }
+            });
+            obj.style.left = null;
+            obj.style.top = null;
             obj.className = 'element';
             drawArea.onmousemove = null;
             obj.onmouseup = null;
@@ -170,7 +201,6 @@
     });
 
     document.addEventListener('keypress', () => {
-      console.log(event);
       if(event.code === 'KeyP'){
         changeElementColor();
       }
