@@ -1,5 +1,6 @@
-/* eslint-disable no-shadow */
 /* eslint-disable no-restricted-globals */
+/* eslint-disable no-shadow */
+
 (function main() {
     const colChoose = document.querySelector('#color-picker');
     const prevCol = document.querySelector('#prev-circle');
@@ -28,55 +29,47 @@
 
     function changeElementPosition(e) {
         const obj = this;
-        const coords = getCoords(obj);
+        let coords = getCoords(obj);
         const shiftX = e.pageX - coords.left;
         const shiftY = e.pageY - coords.top;
-        const areaCoords = getCoords(drawArea);
-        const elementCoords = {
-            top: coords.top - areaCoords.top,
-            left: coords.left - areaCoords.left
-        };
-        const cursorCoords = {};
+
         obj.className = 'element-active';
+        obj.style.position = 'absolute';
 
         function moveAt(e) {
-            cursorCoords.left = e.pageX - areaCoords.left;
-            cursorCoords.top = e.pageY - areaCoords.top;
-            obj.style.left = `${cursorCoords.left -
-                shiftX -
-                elementCoords.left}px`;
-            obj.style.top = `${cursorCoords.top -
-                shiftY -
-                elementCoords.top}px`;
+            coords = getCoords(obj);
+            obj.style.left = `${e.pageX - shiftX}px`;
+            obj.style.top = `${e.pageY - shiftY}px`;
         }
 
-        drawArea.onmousemove = function abc(e) {
+        drawArea.onmousemove = e => {
             moveAt(e);
         };
 
         moveAt(e);
 
-        obj.onmouseup = function abcabc() {
+        obj.onmouseup = () => {
             obj.className = 'element';
-            obj.style.position = 'relative';
             drawArea.onmousemove = null;
             obj.onmouseup = null;
+        };
+
+        this.ondragstart = () => {
+            return false;
         };
     }
 
     function changeElementForm() {
-        if (this.style.borderRadius === '0%') {
+        if (getComputedStyle(this).borderRadius === '0px') {
             this.style.borderRadius = '50%';
             return 0;
         }
-        this.style.borderRadius = '0%';
+        this.style.borderRadius = '0px';
         return 0;
     }
 
     function changeBackgroundColor() {
-        this.style.background = window.getComputedStyle(
-            currentColor
-        ).background;
+        this.style.background = window.getComputedStyle(currentColor).background;
     }
 
     function changeCurrentColor() {
@@ -93,28 +86,22 @@
     }
 
     function openBar() {
+      colChoose.className = "active";
+      move.classList.remove("active");
+      transform.classList.remove("active");
+      bucket.classList.remove("active");
         if (chooseBar.style.display === 'flex') {
             chooseBar.style.display = 'none';
         } else chooseBar.style.display = 'flex';
     }
 
     function setupColors() {
-        currentColor.style.background = window.getComputedStyle(
-            currentColor
-        ).background;
-        whiteCol.style.background = window.getComputedStyle(
-            whiteCol
-        ).background;
+        currentColor.style.background = window.getComputedStyle(currentColor).background;
+        whiteCol.style.background = window.getComputedStyle(whiteCol).background;
         blueCol.style.background = window.getComputedStyle(blueCol).background;
-        blackCol.style.background = window.getComputedStyle(
-            blackCol
-        ).background;
-        greenCol.style.background = window.getComputedStyle(
-            greenCol
-        ).background;
-        magentaCol.style.background = window.getComputedStyle(
-            magentaCol
-        ).background;
+        blackCol.style.background = window.getComputedStyle(blackCol).background;
+        greenCol.style.background = window.getComputedStyle(greenCol).background;
+        magentaCol.style.background = window.getComputedStyle(magentaCol).background;
         prevCol.style.background = window.getComputedStyle(prevCol).background;
         redCol.style.background = window.getComputedStyle(redCol).background;
     }
@@ -132,6 +119,10 @@
     }
 
     function changeElementColor() {
+      bucket.className = "active";
+      move.classList.remove("active");
+      transform.classList.remove("active");
+      colChoose.classList.remove("active");
         elementBlock.forEach(elem => {
             elem.removeEventListener('mousedown', changeElementPosition);
             elem.removeEventListener('click', changeElementForm);
@@ -140,6 +131,10 @@
     }
 
     function transformElement() {
+      transform.className = "active";
+      bucket.classList.remove("active");
+      move.classList.remove("active");
+      colChoose.classList.remove("active");
         elementBlock.forEach(elem => {
             elem.removeEventListener('mousedown', changeElementPosition);
             elem.removeEventListener('click', changeBackgroundColor);
@@ -148,6 +143,10 @@
     }
 
     function moveElement() {
+      move.className = "active";
+      bucket.classList.remove("active");
+      transform.classList.remove("active");
+      colChoose.classList.remove("active");
         elementBlock.forEach(elem => {
             elem.removeEventListener('click', changeBackgroundColor);
             elem.removeEventListener('click', changeElementForm);
@@ -168,5 +167,21 @@
 
     colorElements.forEach(elem => {
         elem.addEventListener('click', changeCurrentColor);
+    });
+
+    document.addEventListener('keypress', () => {
+      console.log(event);
+      if(event.code === 'KeyP'){
+        changeElementColor();
+      }
+      else if(event.code === 'KeyC'){
+        openBar();
+      }
+      else if(event.code === 'KeyM'){
+        moveElement();
+      }
+      else if(event.code === 'KeyT'){
+        transformElement();
+      }
     });
 })();

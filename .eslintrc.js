@@ -12,6 +12,7 @@ module.exports = {
       "no-useless-escape": "off",
       "no-param-reassign":"warn",
       "no-console": 1,
-      "quotes": "off"
+      "quotes": "off",
+      "code": 120
     }
 };
